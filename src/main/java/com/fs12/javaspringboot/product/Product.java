@@ -28,9 +28,9 @@ public class Product {
     private String subcategory;
     private String variant;
     private String size;
-    private double price;
+    private Double price;
 
-    public Product(String name, String image, String description, String pet, String subcategory, String variant, String size, double price) {
+    public Product(String name, String image, String description, String pet, String subcategory, String variant, String size, Double price) {
         this.name = name;
         this.image = image;
         this.description = description;
