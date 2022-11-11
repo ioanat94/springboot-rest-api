@@ -1,6 +1,5 @@
 package com.fs12.javaspringboot.order;
 
-import com.fs12.javaspringboot.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
