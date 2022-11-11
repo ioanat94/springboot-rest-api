@@ -27,9 +27,9 @@ public class User {
     private String lastName;
     private String email;
     private String image;
-    private boolean isBanned;
+    private Boolean isBanned;
 
-    public User(String firstName, String lastName, String email, String image, boolean isBanned) {
+    public User(String firstName, String lastName, String email, String image, Boolean isBanned) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
