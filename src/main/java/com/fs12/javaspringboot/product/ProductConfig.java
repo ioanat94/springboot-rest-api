@@ -9,7 +9,7 @@ import java.util.List;
 @Configuration
 public class ProductConfig {
     @Bean
-    CommandLineRunner commandLineRunner(ProductRepository repository) {
+    CommandLineRunner commandLineRunnerProduct(ProductRepository productRepository) {
         return args -> {
             Product product1 = new Product(
                     "Cat Toy",
@@ -121,7 +121,7 @@ public class ProductConfig {
                     29.99
             );
 
-            repository.saveAll(
+            productRepository.saveAll(
                     List.of(product1, product2, product3, product4, product5, product6, product7, product8, product9, product10)
             );
         };
