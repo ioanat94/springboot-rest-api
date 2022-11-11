@@ -24,21 +24,21 @@ public class Order {
             strategy = GenerationType.SEQUENCE,
             generator = "order_sequence"
     )
-    private Long id;
+    private int id;
     private Date date;
     private String status;
-    private String customer;
-    @ElementCollection(targetClass = String.class)
-    @Column(name="products", nullable=false)
-    @CollectionTable(name = "orders_products", joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
-    private List<String> products;
+    private int customer_id;
+    @ElementCollection(targetClass = Integer.class)
+    @Column(name="product_id", nullable=false)
+    @CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
+    private List<Integer> products;
     private double totalPrice;
     private String shippingAddress;
 
-    public Order(Date date, String status, String customer, List<String> products, double totalPrice, String shippingAddress) {
+    public Order(Date date, String status, int customer, List<Integer> products, double totalPrice, String shippingAddress) {
         this.date = date;
         this.status = status;
-        this.customer = customer;
+        this.customer_id = customer;
         this.products = products;
         this.totalPrice = totalPrice;
         this.shippingAddress = shippingAddress;

@@ -20,7 +20,7 @@ public class Product {
             strategy = GenerationType.SEQUENCE,
             generator = "product_sequence"
     )
-    private Long id;
+    private int id;
     private String name;
     private String image;
     private String description;

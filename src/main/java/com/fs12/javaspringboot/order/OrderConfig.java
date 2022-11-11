@@ -15,8 +15,8 @@ public class OrderConfig {
             Order order1 = new Order(
                     new Date(),
                     "processing",
-                    "ioanatiplea@gmail.com",
-                    List.of("1", "2"),
+                    1,
+                    List.of(1, 2),
                     15.98,
                     "Test str. no. 10"
             );
@@ -24,8 +24,8 @@ public class OrderConfig {
             Order order2 = new Order(
                     new Date(),
                     "processing",
-                    "ioanatiplea@gmail.com",
-                    List.of("1", "2"),
+                    1,
+                    List.of(1, 2),
                     15.98,
                     "Test str. no. 10"
             );
@@ -33,8 +33,8 @@ public class OrderConfig {
             Order order3 = new Order(
                     new Date(),
                     "processing",
-                    "ioanatiplea@gmail.com",
-                    List.of("1", "2"),
+                    1,
+                    List.of(1, 2),
                     15.98,
                     "Test str. no. 10"
             );
@@ -42,8 +42,8 @@ public class OrderConfig {
             Order order4 = new Order(
                     new Date(),
                     "processing",
-                    "ioanatiplea@gmail.com",
-                    List.of("1", "2"),
+                    1,
+                    List.of(1, 2),
                     15.98,
                     "Test str. no. 10"
             );
@@ -51,8 +51,8 @@ public class OrderConfig {
             Order order5 = new Order(
                     new Date(),
                     "processing",
-                    "ioanatiplea@gmail.com",
-                    List.of("1", "2"),
+                    1,
+                    List.of(1, 2),
                     15.98,
                     "Test str. no. 10"
             );
