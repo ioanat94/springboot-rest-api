@@ -1,11 +1,13 @@
 package com.fs12.javaspringboot.order;
 
+import com.fs12.javaspringboot.product.Product;
 import com.fs12.javaspringboot.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,17 +30,17 @@ public class Order {
     private int id;
     private Date date;
     private String status;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "customer_id")
     private User customer;
-    @ElementCollection(targetClass = Integer.class)
-    @Column(name="product_id", nullable=false)
-    @CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
-    private List<Integer> products;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    @ElementCollection(targetClass = Product.class)
+    private List<Product> products;
     private double totalPrice;
     private String shippingAddress;
 
-    public Order(Date date, String status, User customer, List<Integer> products, double totalPrice, String shippingAddress) {
+    public Order(Date date, String status, User customer, ArrayList<Product> products, double totalPrice, String shippingAddress) {
         this.date = date;
         this.status = status;
         this.customer = customer;

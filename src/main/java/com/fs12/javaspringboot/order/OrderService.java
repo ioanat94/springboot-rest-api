@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,15 +17,47 @@ public class OrderService {
     }
 
     public List<OrderUserDTO> getCustomers() {
-        return orderRepository.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
+        return orderRepository.findAll().stream().map(this::convertEntityToUserDto).collect(Collectors.toList());
     }
 
-    private OrderUserDTO convertEntityToDto(Order order) {
+    public List<OrderProductsDTO> getProducts() {
+        return orderRepository.findAll().stream().map(this::convertEntityToProductDto).collect(Collectors.toList());
+    }
+
+    private OrderUserDTO convertEntityToUserDto(Order order) {
         OrderUserDTO orderUserDTO = new OrderUserDTO();
         orderUserDTO.setOrderId(order.getId());
         orderUserDTO.setEmail(order.getCustomer().getEmail());
 
         return orderUserDTO;
+    }
+
+    private OrderProductsDTO convertEntityToProductDto(Order order) {
+        OrderProductsDTO orderProductsDTO = new OrderProductsDTO();
+
+        List<String> names = new ArrayList<>();
+        List<String> variants = new ArrayList<>();
+        List<String> sizes = new ArrayList<>();
+        List<Double> prices = new ArrayList<>();
+
+        orderProductsDTO.setOrderId(order.getId());
+
+        order.getProducts().forEach(product -> {
+            names.add(product.getName());
+            variants.add(product.getVariant());
+            sizes.add(product.getSize());
+            prices.add(product.getPrice());
+            }
+        );
+
+        orderProductsDTO.setName(names);
+        orderProductsDTO.setVariant(variants);
+        orderProductsDTO.setSize(sizes);
+        orderProductsDTO.setPrice(prices);
+
+        System.out.println(orderProductsDTO);
+
+        return orderProductsDTO;
     }
 
     public List<Order> getOrders() {

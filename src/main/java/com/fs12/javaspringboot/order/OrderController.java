@@ -21,6 +21,11 @@ public class OrderController {
         return orderService.getCustomers();
     }
 
+    @GetMapping(path = "/order-products")
+    public List<OrderProductsDTO> getProducts() {
+        return orderService.getProducts();
+    }
+
     @GetMapping
     public List<Order> getOrders() {
         return orderService.getOrders();

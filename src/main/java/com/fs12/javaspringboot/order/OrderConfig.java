@@ -1,5 +1,7 @@
 package com.fs12.javaspringboot.order;
 
+import com.fs12.javaspringboot.product.Product;
+import com.fs12.javaspringboot.product.ProductRepository;
 import com.fs12.javaspringboot.user.User;
 import com.fs12.javaspringboot.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +18,8 @@ import java.util.List;
 public class OrderConfig {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Bean
     CommandLineRunner commandLineRunnerOrder(OrderRepository orderRepository) {
@@ -36,12 +42,64 @@ public class OrderConfig {
         userRepository.save(user1);
         userRepository.save(user2);
 
+        Product product1 = new Product(
+                "Cat Toy",
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+                "Fun cat toy",
+                "cats",
+                "toys",
+                "mouse",
+                "small",
+                9.99
+        );
+
+        Product product2 = new Product(
+                "Cat Food",
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+                "Delicious cat food",
+                "cats",
+                "food",
+                "chicken",
+                "medium",
+                5.99
+        );
+
+        Product product3 = new Product(
+                "Cat Bed",
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+                "Soft cat bed",
+                "cats",
+                "beds",
+                "blue",
+                "small",
+                19.99
+        );
+
+        Product product4 = new Product(
+                "Cat Brush",
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+                "Nice cat brush",
+                "cats",
+                "hygiene",
+                "bristles",
+                "small",
+                3.99
+        );
+
+        productRepository.save(product1);
+        productRepository.save(product2);
+        productRepository.save(product3);
+        productRepository.save(product4);
+
+        Product[] productArray1 = new Product[] {product1, product2};
+        Product[] productArray2 = new Product[] {product3, product4};
+
         return args -> {
             Order order1 = new Order(
                     new Date(),
                     "processing",
                     user1,
-                    List.of(1, 2),
+                    new ArrayList<>(Arrays.asList(productArray1)),
                     15.98,
                     "Test str. no. 10"
             );
@@ -50,40 +108,13 @@ public class OrderConfig {
                     new Date(),
                     "processing",
                     user2,
-                    List.of(1, 2),
-                    15.98,
-                    "Test str. no. 10"
-            );
-
-            Order order3 = new Order(
-                    new Date(),
-                    "processing",
-                    user1,
-                    List.of(1, 2),
-                    15.98,
-                    "Test str. no. 10"
-            );
-
-            Order order4 = new Order(
-                    new Date(),
-                    "processing",
-                    user2,
-                    List.of(1, 2),
-                    15.98,
-                    "Test str. no. 10"
-            );
-
-            Order order5 = new Order(
-                    new Date(),
-                    "processing",
-                    user1,
-                    List.of(1, 2),
+                    new ArrayList<>(Arrays.asList(productArray2)),
                     15.98,
                     "Test str. no. 10"
             );
 
             orderRepository.saveAll(
-                    List.of(order1, order2, order3, order4, order5)
+                    List.of(order1, order2)
             );
         };
     }
