@@ -16,6 +16,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @GetMapping(path = "/order-user")
+    public List<OrderUserDTO> getCustomers() {
+        return orderService.getCustomers();
+    }
+
     @GetMapping
     public List<Order> getOrders() {
         return orderService.getOrders();

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -16,6 +17,18 @@ public class OrderService {
     @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+
+    public List<OrderUserDTO> getCustomers() {
+        return orderRepository.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
+    private OrderUserDTO convertEntityToDto(Order order) {
+        OrderUserDTO orderUserDTO = new OrderUserDTO();
+        orderUserDTO.setOrderId(order.getId());
+        orderUserDTO.setEmail(order.getCustomer().getEmail());
+
+        return orderUserDTO;
     }
 
     public List<Order> getOrders() {
