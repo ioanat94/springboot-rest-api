@@ -17,7 +17,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin1@petlify.com",
-                    "securepassword",
+                    "Securepassword1@",
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -25,7 +25,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin2@petlify.com",
-                    "securepassword",
+                    "Securepassword1@",
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -33,7 +33,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin3@petlify.com",
-                    "securepassword",
+                    "Securepassword1@",
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -41,7 +41,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin4@petlify.com",
-                    "securepassword",
+                    "Securepassword1@",
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -49,7 +49,7 @@ public class AdminConfig {
                     "Super",
                     "Admin",
                     "superadmin@petlify.com",
-                    "securepassword",
+                    "Securepassword1@",
                     List.of(ADMINS_READ, ADMINS_WRITE, ORDERS_READ, ORDERS_WRITE, USERS_READ, USERS_WRITE, PRODUCTS_READ, PRODUCTS_WRITE)
             );
 

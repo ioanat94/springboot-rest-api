@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> addOrder(@RequestBody @Valid Order order) {
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
     }
 

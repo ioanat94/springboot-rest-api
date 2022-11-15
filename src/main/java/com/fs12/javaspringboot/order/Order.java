@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,7 @@ public class Order {
     @ElementCollection(targetClass = Product.class)
     private List<Product> products;
     private double totalPrice;
+    @NotBlank(message = "Shipping address cannot be empty.")
     private String shippingAddress;
 
     public Order(Date date, String status, User customer, ArrayList<Product> products, double totalPrice, String shippingAddress) {

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<Admin> addAdmin(@RequestBody Admin admin) {
+    public ResponseEntity<Admin> addAdmin(@RequestBody @Valid Admin admin) {
         return new ResponseEntity<>(adminService.addAdmin(admin), HttpStatus.CREATED);
     }
 
