@@ -1,5 +1,7 @@
 package com.fs12.javaspringboot.order;
 
+import com.fs12.javaspringboot.util.OrderNotFoundException;
+import com.fs12.javaspringboot.util.OrdersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,12 +62,24 @@ public class OrderService {
         return orderProductsDTO;
     }
 
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    public List<Order> getOrders() throws OrdersNotFoundException {
+        List<Order> orders = orderRepository.findAll();
+
+        if (!orders.isEmpty()) {
+            return orders;
+        } else {
+            throw new OrdersNotFoundException("No orders found.");
+        }
     }
 
-    public Optional<Order> getOrder(int orderId) {
-        return orderRepository.findById(orderId);
+    public Optional<Order> getOrder(int orderId) throws OrderNotFoundException {
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if(order.isPresent()) {
+            return order;
+        } else {
+            throw new OrderNotFoundException("Order with id " + orderId + " does not exist.");
+        }
     }
 
     public Order addOrder(Order order) {
@@ -73,11 +87,11 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public String deleteOrder(int orderId) {
+    public String deleteOrder(int orderId) throws OrderNotFoundException {
         boolean exists = orderRepository.existsById(orderId);
 
         if(!exists) {
-            throw new IllegalStateException("Product with id " + orderId + " does not exist.");
+            throw new OrderNotFoundException("Order with id " + orderId + " does not exist.");
         }
 
         orderRepository.deleteById(orderId);
@@ -86,8 +100,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order updateOrder(int orderId, Order order) {
-        Order foundOrder = orderRepository.findById(orderId).orElseThrow(() -> new IllegalStateException("Order with id " + orderId + " does not exist."));
+    public Order updateOrder(int orderId, Order order) throws OrderNotFoundException {
+        Order foundOrder = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " does not exist."));
 
         if(order.getStatus() != null && order.getStatus().length() > 0 && !Objects.equals(foundOrder.getStatus(), order.getStatus())) {
             foundOrder.setStatus(order.getStatus());

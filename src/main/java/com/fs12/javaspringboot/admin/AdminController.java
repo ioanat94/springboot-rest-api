@@ -1,5 +1,8 @@
 package com.fs12.javaspringboot.admin;
 
+import com.fs12.javaspringboot.util.AdminNotFoundException;
+import com.fs12.javaspringboot.util.AdminsNotFoundException;
+import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +23,27 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Admin>> getAdmins() {
+    public ResponseEntity<List<Admin>> getAdmins() throws AdminsNotFoundException {
         return ResponseEntity.ok(adminService.getAdmins());
     }
 
     @GetMapping(path = "{adminId}")
-    public ResponseEntity<Optional<Admin>> getAdmin(@PathVariable("adminId") int adminId) {
+    public ResponseEntity<Optional<Admin>> getAdmin(@PathVariable("adminId") int adminId) throws AdminNotFoundException {
         return ResponseEntity.ok(adminService.getAdmin(adminId));
     }
 
     @PostMapping
-    public ResponseEntity<Admin> addAdmin(@RequestBody @Valid Admin admin) {
+    public ResponseEntity<Admin> addAdmin(@RequestBody @Valid Admin admin) throws EmailAlreadyInUse {
         return new ResponseEntity<>(adminService.addAdmin(admin), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{adminId}")
-    public ResponseEntity<String> deleteAdmin(@PathVariable("adminId") int adminId) {
+    public ResponseEntity<String> deleteAdmin(@PathVariable("adminId") int adminId) throws AdminNotFoundException {
         return ResponseEntity.ok(adminService.deleteAdmin(adminId));
     }
 
     @PutMapping(path = "{adminId}")
-    public ResponseEntity<Admin> updateAdmin(@PathVariable("adminId") int adminId, @RequestBody Admin admin) {
+    public ResponseEntity<Admin> updateAdmin(@PathVariable("adminId") int adminId, @RequestBody Admin admin) throws AdminNotFoundException {
         return new ResponseEntity<>(adminService.updateAdmin(adminId, admin), HttpStatus.OK);
     }
 }

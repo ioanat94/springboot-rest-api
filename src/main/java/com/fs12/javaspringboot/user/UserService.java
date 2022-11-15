@@ -1,5 +1,8 @@
 package com.fs12.javaspringboot.user;
 
+import com.fs12.javaspringboot.util.EmailAlreadyInUse;
+import com.fs12.javaspringboot.util.UserNotFoundException;
+import com.fs12.javaspringboot.util.UsersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +20,42 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<User> getUsers() throws UsersNotFoundException {
+        List<User> users = userRepository.findAll();
+
+        if(!users.isEmpty()) {
+            return users;
+        } else {
+            throw new UsersNotFoundException("No users found.");
+        }
     }
 
-    public Optional<User> getUser(int userId) {
-        return userRepository.findById(userId);
+    public Optional<User> getUser(int userId) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isPresent()) {
+            return user;
+        } else {
+            throw new UserNotFoundException("User with id " + userId + " does not exist.");
+        }
     }
 
-    public User addUser(User user) {
+    public User addUser(User user) throws EmailAlreadyInUse {
         User foundUser = userRepository.getUserByEmail(user.getEmail());
 
         if(foundUser != null) {
-            throw new IllegalStateException("An account already exists for this email address.");
+            throw new EmailAlreadyInUse("An account already exists for this email address.");
         }
 
         user.setIsBanned(false);
         return userRepository.save(user);
     }
 
-    public String deleteUser(int userId) {
+    public String deleteUser(int userId) throws UserNotFoundException {
         boolean exists = userRepository.existsById(userId);
 
         if(!exists) {
-            throw new IllegalStateException("User with id " + userId + " does not exist.");
+            throw new UserNotFoundException("User with id " + userId + " does not exist.");
         }
 
         userRepository.deleteById(userId);
@@ -49,8 +64,8 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(int userId, User user) {
-        User foundUser = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exist."));
+    public User updateUser(int userId, User user) throws UserNotFoundException {
+        User foundUser = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " does not exist."));
 
         if(user.getFirstName() != null && user.getFirstName().length() > 0 && !Objects.equals(foundUser.getFirstName(), user.getFirstName())) {
             foundUser.setFirstName(user.getFirstName());

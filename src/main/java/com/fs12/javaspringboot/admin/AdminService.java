@@ -1,5 +1,8 @@
 package com.fs12.javaspringboot.admin;
 
+import com.fs12.javaspringboot.util.AdminNotFoundException;
+import com.fs12.javaspringboot.util.AdminsNotFoundException;
+import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,23 +20,41 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public List<Admin> getAdmins() {
-        return adminRepository.findAll();
+    public List<Admin> getAdmins() throws AdminsNotFoundException {
+        List<Admin> admins = adminRepository.findAll();
+
+        if(!admins.isEmpty()) {
+            return admins;
+        } else {
+            throw new AdminsNotFoundException("No admins found.");
+        }
     }
 
-    public Optional<Admin> getAdmin(int adminId) {
-        return adminRepository.findById(adminId);
+    public Optional<Admin> getAdmin(int adminId) throws AdminNotFoundException {
+        Optional<Admin> admin = adminRepository.findById(adminId);
+
+        if(admin.isPresent()) {
+            return admin;
+        } else {
+            throw new AdminNotFoundException("Admin with id " + adminId + " does not exist.");
+        }
     }
 
-    public Admin addAdmin(Admin admin) {
+    public Admin addAdmin(Admin admin) throws EmailAlreadyInUse {
+        Admin foundAdmin = adminRepository.getAdminByEmail(admin.getEmail());
+
+        if(foundAdmin != null) {
+            throw new EmailAlreadyInUse("An account already exists for this email address.");
+        }
+
         return adminRepository.save(admin);
     }
 
-    public String deleteAdmin(int adminId) {
+    public String deleteAdmin(int adminId) throws AdminNotFoundException {
         boolean exists = adminRepository.existsById(adminId);
 
         if(!exists) {
-            throw new IllegalStateException("Admin with id " + adminId + " does not exist.");
+            throw new AdminNotFoundException("Admin with id " + adminId + " does not exist.");
         }
 
         adminRepository.deleteById(adminId);
@@ -42,8 +63,8 @@ public class AdminService {
     }
 
     @Transactional
-    public Admin updateAdmin(int adminId, Admin admin) {
-        Admin foundAdmin = adminRepository.findById(adminId).orElseThrow(() -> new IllegalStateException("Admin with id " + adminId + " does not exist."));
+    public Admin updateAdmin(int adminId, Admin admin) throws AdminNotFoundException {
+        Admin foundAdmin = adminRepository.findById(adminId).orElseThrow(() -> new AdminNotFoundException("Admin with id " + adminId + " does not exist."));
 
         if(admin.getFirstName() != null && admin.getFirstName().length() > 0 && !Objects.equals(foundAdmin.getFirstName(), admin.getFirstName())) {
             foundAdmin.setFirstName(admin.getFirstName());

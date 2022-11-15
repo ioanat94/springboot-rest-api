@@ -1,5 +1,7 @@
 package com.fs12.javaspringboot.product;
 
+import com.fs12.javaspringboot.util.ProductNotFoundException;
+import com.fs12.javaspringboot.util.ProductsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() throws ProductsNotFoundException {
         return ResponseEntity.ok(productService.getProducts());
     }
 
     @GetMapping(path = "{productId}")
-    public ResponseEntity<Optional<Product>> getProduct(@PathVariable("productId") int productId) {
+    public ResponseEntity<Optional<Product>> getProduct(@PathVariable("productId") int productId) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.getProduct(productId));
     }
 
@@ -35,13 +37,13 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "{productId}")
-    public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId) {
+    public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.deleteProduct(productId));
     }
 
     @PutMapping(path = "{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable("productId") int productId,
-                              @RequestBody Product product) {
+                              @RequestBody Product product) throws ProductNotFoundException {
         return new ResponseEntity<>(productService.updateProduct(productId, product), HttpStatus.OK);
     }
 }

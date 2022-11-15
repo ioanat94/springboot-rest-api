@@ -1,5 +1,7 @@
 package com.fs12.javaspringboot.product;
 
+import com.fs12.javaspringboot.util.ProductNotFoundException;
+import com.fs12.javaspringboot.util.ProductsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,23 +19,35 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<Product> getProducts() throws ProductsNotFoundException {
+        List<Product> products = productRepository.findAll();
+
+        if(!products.isEmpty()) {
+            return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
     }
 
-    public Optional<Product> getProduct(int productId) {
-        return productRepository.findById(productId);
+    public Optional<Product> getProduct(int productId) throws ProductNotFoundException {
+        Optional<Product> product = productRepository.findById(productId);
+
+        if (product.isPresent()) {
+            return product;
+        } else {
+            throw new ProductNotFoundException("Product with id " + productId + " does not exist.");
+        }
     }
 
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 
-    public String deleteProduct(int productId) {
+    public String deleteProduct(int productId) throws ProductNotFoundException {
         boolean exists = productRepository.existsById(productId);
 
         if(!exists) {
-            throw new IllegalStateException("Product with id " + productId + " does not exist.");
+            throw new ProductNotFoundException("Product with id " + productId + " does not exist.");
         }
 
         productRepository.deleteById(productId);
@@ -42,8 +56,8 @@ public class ProductService {
     }
 
     @Transactional
-    public Product updateProduct(int productId, Product product) {
-        Product foundProduct = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product with id " + productId + " does not exist."));
+    public Product updateProduct(int productId, Product product) throws ProductNotFoundException {
+        Product foundProduct = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("Product with id " + productId + " does not exist."));
 
         if(product.getName() != null && product.getName().length() > 0 && !Objects.equals(foundProduct.getName(), product.getName())) {
             foundProduct.setName(product.getName());

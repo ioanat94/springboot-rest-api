@@ -1,5 +1,8 @@
 package com.fs12.javaspringboot.user;
 
+import com.fs12.javaspringboot.util.EmailAlreadyInUse;
+import com.fs12.javaspringboot.util.UserNotFoundException;
+import com.fs12.javaspringboot.util.UsersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +23,27 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getUsers() throws UsersNotFoundException {
         return ResponseEntity.ok(userService.getUsers());
     }
 
     @GetMapping(path = "{userId}")
-    public ResponseEntity<Optional<User>> getUser(@PathVariable int userId) {
+    public ResponseEntity<Optional<User>> getUser(@PathVariable int userId) throws UserNotFoundException {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<User> addUser(@RequestBody @Valid User user) throws EmailAlreadyInUse {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable int userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable int userId) throws UserNotFoundException {
         return ResponseEntity.ok(userService.deleteUser(userId));
     }
 
     @PutMapping(path = "{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User user) throws UserNotFoundException {
         return new ResponseEntity<>(userService.updateUser(userId, user), HttpStatus.OK);
     }
 }

@@ -1,5 +1,7 @@
 package com.fs12.javaspringboot.order;
 
+import com.fs12.javaspringboot.util.OrderNotFoundException;
+import com.fs12.javaspringboot.util.OrdersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getOrders() {
+    public ResponseEntity<List<Order>> getOrders() throws OrdersNotFoundException {
         return ResponseEntity.ok(orderService.getOrders());
     }
 
     @GetMapping(path = "{orderId}")
-    public ResponseEntity<Optional<Order>> getOrder(@PathVariable("orderId") int orderId) {
+    public ResponseEntity<Optional<Order>> getOrder(@PathVariable("orderId") int orderId) throws OrderNotFoundException {
         return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
@@ -45,13 +47,13 @@ public class OrderController {
     }
 
     @DeleteMapping(path = "{orderId}")
-    public ResponseEntity<String> deleteOrder(@PathVariable("orderId") int orderId) {
+    public ResponseEntity<String> deleteOrder(@PathVariable("orderId") int orderId) throws OrderNotFoundException {
         return ResponseEntity.ok(orderService.deleteOrder(orderId));
     }
 
     @PutMapping(path = "{orderId}")
     public ResponseEntity<Order> updateOrder(@PathVariable("orderId") int orderId,
-                              @RequestBody Order order) {
+                              @RequestBody Order order) throws OrderNotFoundException {
         return new ResponseEntity<>(orderService.updateOrder(orderId, order), HttpStatus.OK);
     }
 }
