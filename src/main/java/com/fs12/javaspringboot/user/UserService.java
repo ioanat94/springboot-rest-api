@@ -26,6 +26,12 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        User foundUser = userRepository.getUserByEmail(user.getEmail());
+
+        if(foundUser != null) {
+            throw new IllegalStateException("An account already exists for this email address.");
+        }
+
         user.setIsBanned(false);
         return userRepository.save(user);
     }
