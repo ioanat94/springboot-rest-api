@@ -1,6 +1,8 @@
 package com.fs12.javaspringboot.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +19,28 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getProducts() {
-        return productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        return ResponseEntity.ok(productService.getProducts());
     }
 
     @GetMapping(path = "{productId}")
-    public Optional<Product> getProduct(@PathVariable("productId") int productId) {
-        return productService.getProduct(productId);
+    public ResponseEntity<Optional<Product>> getProduct(@PathVariable("productId") int productId) {
+        return ResponseEntity.ok(productService.getProduct(productId));
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
-        productService.addProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{productId}")
-    public void deleteProduct(@PathVariable("productId") int productId) {
-        productService.deleteProduct(productId);
+    public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId) {
+        return ResponseEntity.ok(productService.deleteProduct(productId));
     }
 
     @PutMapping(path = "{productId}")
-    public void updateProduct(@PathVariable("productId") int productId,
+    public ResponseEntity<Product> updateProduct(@PathVariable("productId") int productId,
                               @RequestBody Product product) {
-        productService.updateProduct(productId, product);
+        return new ResponseEntity<>(productService.updateProduct(productId, product), HttpStatus.OK);
     }
 }

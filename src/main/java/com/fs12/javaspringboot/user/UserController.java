@@ -1,6 +1,8 @@
 package com.fs12.javaspringboot.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +19,27 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @GetMapping(path = "{userId}")
-    public Optional<User> getUser(@PathVariable int userId) {
-        return userService.getUser(userId);
+    public ResponseEntity<Optional<User>> getUser(@PathVariable int userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{userId}")
-    public void deleteUser(@PathVariable int userId) {
-        userService.deleteUser(userId);
+    public ResponseEntity<String> deleteUser(@PathVariable int userId) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
     }
 
     @PutMapping(path = "{userId}")
-    public void updateUser(@PathVariable int userId, @RequestBody User user) {
-        userService.updateUser(userId, user);
+    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUser(userId, user), HttpStatus.OK);
     }
 }

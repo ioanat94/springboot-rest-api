@@ -25,11 +25,11 @@ public class ProductService {
         return productRepository.findById(productId);
     }
 
-    public void addProduct(Product product) {
-        productRepository.save(product);
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
     }
 
-    public void deleteProduct(int productId) {
+    public String deleteProduct(int productId) {
         boolean exists = productRepository.existsById(productId);
 
         if(!exists) {
@@ -37,10 +37,12 @@ public class ProductService {
         }
 
         productRepository.deleteById(productId);
+
+        return "Product with id " + productId + " deleted successfully.";
     }
 
     @Transactional
-    public void updateProduct(int productId, Product product) {
+    public Product updateProduct(int productId, Product product) {
         Product foundProduct = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product with id " + productId + " does not exist."));
 
         if(product.getName() != null && product.getName().length() > 0 && !Objects.equals(foundProduct.getName(), product.getName())) {
@@ -74,5 +76,7 @@ public class ProductService {
         if(product.getPrice() != null && product.getPrice() > 0 && !Objects.equals(foundProduct.getPrice(), product.getPrice())) {
             foundProduct.setPrice(product.getPrice());
         }
+
+        return foundProduct;
     }
 }

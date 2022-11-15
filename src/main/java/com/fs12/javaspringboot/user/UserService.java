@@ -25,12 +25,12 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setIsBanned(false);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void deleteUser(int userId) {
+    public String deleteUser(int userId) {
         boolean exists = userRepository.existsById(userId);
 
         if(!exists) {
@@ -38,10 +38,12 @@ public class UserService {
         }
 
         userRepository.deleteById(userId);
+
+        return "User with id " + userId + " deleted successfully.";
     }
 
     @Transactional
-    public void updateUser(int userId, User user) {
+    public User updateUser(int userId, User user) {
         User foundUser = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exist."));
 
         if(user.getFirstName() != null && user.getFirstName().length() > 0 && !Objects.equals(foundUser.getFirstName(), user.getFirstName())) {
@@ -59,5 +61,7 @@ public class UserService {
         if(user.getIsBanned() != null && !Objects.equals(foundUser.getIsBanned(), user.getIsBanned())) {
             foundUser.setIsBanned(user.getIsBanned());
         }
+
+        return foundUser;
     }
 }

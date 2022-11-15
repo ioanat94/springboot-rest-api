@@ -68,12 +68,12 @@ public class OrderService {
         return orderRepository.findById(orderId);
     }
 
-    public void addOrder(Order order) {
+    public Order addOrder(Order order) {
         order.setDate(new Date());
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
-    public void deleteOrder(int orderId) {
+    public String deleteOrder(int orderId) {
         boolean exists = orderRepository.existsById(orderId);
 
         if(!exists) {
@@ -81,14 +81,18 @@ public class OrderService {
         }
 
         orderRepository.deleteById(orderId);
+
+        return "Order with id " + orderId + " deleted successfully.";
     }
 
     @Transactional
-    public void updateOrder(int orderId, Order order) {
+    public Order updateOrder(int orderId, Order order) {
         Order foundOrder = orderRepository.findById(orderId).orElseThrow(() -> new IllegalStateException("Order with id " + orderId + " does not exist."));
 
         if(order.getStatus() != null && order.getStatus().length() > 0 && !Objects.equals(foundOrder.getStatus(), order.getStatus())) {
             foundOrder.setStatus(order.getStatus());
         }
+
+        return foundOrder;
     }
 }

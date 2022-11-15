@@ -1,6 +1,8 @@
 package com.fs12.javaspringboot.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +19,27 @@ public class AdminController {
     }
 
     @GetMapping
-    public List<Admin> getAdmins() {
-        return adminService.getAdmins();
+    public ResponseEntity<List<Admin>> getAdmins() {
+        return ResponseEntity.ok(adminService.getAdmins());
     }
 
     @GetMapping(path = "{adminId}")
-    public Optional<Admin> getAdmin(@PathVariable("adminId") int adminId) {
-        return adminService.getAdmin(adminId);
+    public ResponseEntity<Optional<Admin>> getAdmin(@PathVariable("adminId") int adminId) {
+        return ResponseEntity.ok(adminService.getAdmin(adminId));
     }
 
     @PostMapping
-    public void addAdmin(@RequestBody Admin admin) {
-        adminService.addAdmin(admin);
+    public ResponseEntity<Admin> addAdmin(@RequestBody Admin admin) {
+        return new ResponseEntity<>(adminService.addAdmin(admin), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{adminId}")
-    public void deleteAdmin(@PathVariable("adminId") int adminId) {
-        adminService.deleteAdmin(adminId);
+    public ResponseEntity<String> deleteAdmin(@PathVariable("adminId") int adminId) {
+        return ResponseEntity.ok(adminService.deleteAdmin(adminId));
     }
 
     @PutMapping(path = "{adminId}")
-    public void updateAdmin(@PathVariable("adminId") int adminId, @RequestBody Admin admin) {
-        adminService.updateAdmin(adminId, admin);
+    public ResponseEntity<Admin> updateAdmin(@PathVariable("adminId") int adminId, @RequestBody Admin admin) {
+        return new ResponseEntity<>(adminService.updateAdmin(adminId, admin), HttpStatus.OK);
     }
 }

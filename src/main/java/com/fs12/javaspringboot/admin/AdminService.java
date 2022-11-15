@@ -25,11 +25,11 @@ public class AdminService {
         return adminRepository.findById(adminId);
     }
 
-    public void addAdmin(Admin admin) {
-        adminRepository.save(admin);
+    public Admin addAdmin(Admin admin) {
+        return adminRepository.save(admin);
     }
 
-    public void deleteAdmin(int adminId) {
+    public String deleteAdmin(int adminId) {
         boolean exists = adminRepository.existsById(adminId);
 
         if(!exists) {
@@ -37,10 +37,12 @@ public class AdminService {
         }
 
         adminRepository.deleteById(adminId);
+
+        return "Admin with id " + adminId + " deleted successfully.";
     }
 
     @Transactional
-    public void updateAdmin(int adminId, Admin admin) {
+    public Admin updateAdmin(int adminId, Admin admin) {
         Admin foundAdmin = adminRepository.findById(adminId).orElseThrow(() -> new IllegalStateException("Admin with id " + adminId + " does not exist."));
 
         if(admin.getFirstName() != null && admin.getFirstName().length() > 0 && !Objects.equals(foundAdmin.getFirstName(), admin.getFirstName())) {
@@ -62,5 +64,7 @@ public class AdminService {
         if(admin.getPermissions() != null && admin.getPermissions().size() > 0 && !Objects.equals(foundAdmin.getPermissions(), admin.getPermissions())) {
             foundAdmin.setPermissions(admin.getPermissions());
         }
+
+        return foundAdmin;
     }
 }

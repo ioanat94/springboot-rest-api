@@ -1,6 +1,8 @@
 package com.fs12.javaspringboot.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,38 +19,38 @@ public class OrderController {
     }
 
     @GetMapping(path = "/order-user")
-    public List<OrderUserDTO> getCustomers() {
-        return orderService.getCustomers();
+    public ResponseEntity<List<OrderUserDTO>> getCustomers() {
+        return ResponseEntity.ok(orderService.getCustomers());
     }
 
     @GetMapping(path = "/order-products")
-    public List<OrderProductsDTO> getProducts() {
-        return orderService.getProducts();
+    public ResponseEntity<List<OrderProductsDTO>> getProducts() {
+        return ResponseEntity.ok(orderService.getProducts());
     }
 
     @GetMapping
-    public List<Order> getOrders() {
-        return orderService.getOrders();
+    public ResponseEntity<List<Order>> getOrders() {
+        return ResponseEntity.ok(orderService.getOrders());
     }
 
     @GetMapping(path = "{orderId}")
-    public Optional<Order> getOrder(@PathVariable("orderId") int orderId) {
-        return orderService.getOrder(orderId);
+    public ResponseEntity<Optional<Order>> getOrder(@PathVariable("orderId") int orderId) {
+        return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
     @PostMapping
-    public void addOrder(@RequestBody Order order) {
-        orderService.addOrder(order);
+    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+        return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{orderId}")
-    public void deleteOrder(@PathVariable("orderId") int orderId) {
-        orderService.deleteOrder(orderId);
+    public ResponseEntity<String> deleteOrder(@PathVariable("orderId") int orderId) {
+        return ResponseEntity.ok(orderService.deleteOrder(orderId));
     }
 
     @PutMapping(path = "{orderId}")
-    public void updateOrder(@PathVariable("orderId") int orderId,
+    public ResponseEntity<Order> updateOrder(@PathVariable("orderId") int orderId,
                               @RequestBody Order order) {
-        orderService.updateOrder(orderId, order);
+        return new ResponseEntity<>(orderService.updateOrder(orderId, order), HttpStatus.OK);
     }
 }
