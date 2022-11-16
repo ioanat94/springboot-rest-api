@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Data
@@ -34,7 +33,6 @@ public class Admin {
     @Email(message = "Email address must be valid.")
     @NotBlank(message = "Email address cannot be empty.")
     private String email;
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$", message = "Password must have at least one numeric character, at least one lowercase character, at least one uppercase character, at least one special symbol among @#$%, and length should be between 8 and 20 characters.")
     private String password;
     @ElementCollection(targetClass = Permission.class)
     private List<Permission> permissions;

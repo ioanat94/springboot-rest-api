@@ -4,20 +4,26 @@ import com.fs12.javaspringboot.util.AdminNotFoundException;
 import com.fs12.javaspringboot.util.AdminsNotFoundException;
 import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class AdminService {
+public class AdminService implements UserDetailsService {
     private final AdminRepository adminRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository, BCryptPasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Admin> getAdmins() throws AdminsNotFoundException {
@@ -46,6 +52,8 @@ public class AdminService {
         if(foundAdmin != null) {
             throw new EmailAlreadyInUse("An account already exists for this email address.");
         }
+
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 
         return adminRepository.save(admin);
     }
@@ -87,5 +95,23 @@ public class AdminService {
         }
 
         return foundAdmin;
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Admin admin = adminRepository.getAdminByEmail(email);
+
+        if(admin == null) {
+            throw new UsernameNotFoundException("Admin with email " + email + " does not exist.");
+        }
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        admin.getPermissions().forEach(permission -> {
+            authorities.add(new SimpleGrantedAuthority(permission.toString()));
+        });
+
+        return new User(admin.getEmail(), admin.getPassword(), authorities);
     }
 }

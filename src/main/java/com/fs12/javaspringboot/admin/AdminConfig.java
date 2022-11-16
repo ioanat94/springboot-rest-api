@@ -3,6 +3,7 @@ package com.fs12.javaspringboot.admin;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -12,12 +13,14 @@ import static com.fs12.javaspringboot.admin.Permission.*;
 public class AdminConfig {
     @Bean
     CommandLineRunner commandLineRunnerAdmin(AdminRepository adminRepository) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        
         return args -> {
             Admin admin1 = new Admin(
                     "General",
                     "Admin",
                     "generaladmin1@petlify.com",
-                    "Securepassword1@",
+                    passwordEncoder.encode("Securepassword1@"),
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -25,7 +28,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin2@petlify.com",
-                    "Securepassword1@",
+                    passwordEncoder.encode("Securepassword1@"),
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -33,7 +36,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin3@petlify.com",
-                    "Securepassword1@",
+                    passwordEncoder.encode("Securepassword1@"),
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -41,7 +44,7 @@ public class AdminConfig {
                     "General",
                     "Admin",
                     "generaladmin4@petlify.com",
-                    "Securepassword1@",
+                    passwordEncoder.encode("Securepassword1@"),
                     List.of(ADMINS_READ, ORDERS_READ, USERS_READ, PRODUCTS_READ)
             );
 
@@ -49,7 +52,7 @@ public class AdminConfig {
                     "Super",
                     "Admin",
                     "superadmin@petlify.com",
-                    "Securepassword1@",
+                    passwordEncoder.encode("Securepassword1@"),
                     List.of(ADMINS_READ, ADMINS_WRITE, ORDERS_READ, ORDERS_WRITE, USERS_READ, USERS_WRITE, PRODUCTS_READ, PRODUCTS_WRITE)
             );
 
