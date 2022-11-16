@@ -1,6 +1,7 @@
 package com.fs12.javaspringboot.security;
 
 import com.fs12.javaspringboot.filter.CustomAuthenticationFilter;
+import com.fs12.javaspringboot.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +33,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().anyRequest().permitAll();
+
+        http.authorizeRequests().antMatchers("api/v1/admin-login").permitAll();
+
+        http.authorizeRequests().antMatchers(GET, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_READ");
+        http.authorizeRequests().antMatchers(POST, "/api/v1/products").hasAnyAuthority("PRODUCTS_WRITE");
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_WRITE");
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_WRITE");
+
+        http.authorizeRequests().antMatchers(GET, "/api/v1/orders/**").hasAnyAuthority("ORDERS_READ");
+        http.authorizeRequests().antMatchers(POST, "/api/v1/orders").hasAnyAuthority("ORDERS_WRITE");
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/orders/**").hasAnyAuthority("ORDERS_WRITE");
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/orders/**").hasAnyAuthority("ORDERS_WRITE");
+
+        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("USERS_READ");
+        http.authorizeRequests().antMatchers(POST, "/api/v1/users").hasAnyAuthority("USERS_WRITE");
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
+
+        http.authorizeRequests().antMatchers(GET, "/api/v1/admins/**").hasAnyAuthority("ADMINS_READ");
+        http.authorizeRequests().antMatchers(POST, "/api/v1/admins").hasAnyAuthority("ADMINS_WRITE");
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/admins/**").hasAnyAuthority("ADMINS_WRITE");
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/admins/**").hasAnyAuthority("ADMINS_WRITE");
+
+        http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
