@@ -42,6 +42,21 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsWithPaginationAndSorting(offset, pageSize, field));
     }
 
+    @GetMapping(path = "/filter/name/{name}")
+    public ResponseEntity<List<Product>> getProductsByName(@PathVariable String name) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsByName(name));
+    }
+
+    @GetMapping(path = "/filter/pet/{pet}")
+    public ResponseEntity<List<Product>> getProductsByPet(@PathVariable String pet) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsByPet(pet));
+    }
+
+    @GetMapping(path = "/filter/subcategory/{subcategory}")
+    public ResponseEntity<List<Product>> getProductsBySubcategory(@PathVariable String subcategory) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsBySubcategory(subcategory));
+    }
+
     @GetMapping(path = "{productId}")
     public ResponseEntity<Optional<Product>> getProduct(@PathVariable("productId") int productId) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.getProduct(productId));

@@ -52,6 +52,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersWithPaginationAndSorting(offset, pageSize, field));
     }
 
+    @GetMapping(path = "/filter/customer/{customerId}")
+    public ResponseEntity<List<Order>> getOrders(@PathVariable int customerId) throws OrdersNotFoundException {
+        return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
+    }
+
     @GetMapping(path = "{orderId}")
     public ResponseEntity<Optional<Order>> getOrder(@PathVariable("orderId") int orderId) throws OrderNotFoundException {
         return ResponseEntity.ok(orderService.getOrder(orderId));

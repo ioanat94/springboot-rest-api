@@ -62,6 +62,36 @@ public class ProductService {
         }
     }
 
+    public List<Product> getProductsByName(String name) throws ProductsNotFoundException {
+        List<Product> products = productRepository.findByNameIgnoreCaseContaining(name);
+
+        if(!products.isEmpty()) {
+            return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
+    public List<Product> getProductsByPet(String pet) throws ProductsNotFoundException {
+        List<Product> products = productRepository.findByPetIgnoreCase(pet);
+
+        if(!products.isEmpty()) {
+            return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
+    public List<Product> getProductsBySubcategory(String subcategory) throws ProductsNotFoundException {
+        List<Product> products = productRepository.findBySubcategoryIgnoreCase(subcategory);
+
+        if(!products.isEmpty()) {
+            return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
     public Optional<Product> getProduct(int productId) throws ProductNotFoundException {
         Optional<Product> product = productRepository.findById(productId);
 

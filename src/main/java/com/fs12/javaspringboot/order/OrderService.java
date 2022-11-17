@@ -105,6 +105,16 @@ public class OrderService {
         }
     }
 
+    public List<Order> getOrdersByCustomerId(int customerId) throws OrdersNotFoundException {
+        List<Order> orders = orderRepository.findOrderByCustomerId(customerId);
+
+        if (!orders.isEmpty()) {
+            return orders;
+        } else {
+            throw new OrdersNotFoundException("No orders found.");
+        }
+    }
+
     public Optional<Order> getOrder(int orderId) throws OrderNotFoundException {
         Optional<Order> order = orderRepository.findById(orderId);
 
