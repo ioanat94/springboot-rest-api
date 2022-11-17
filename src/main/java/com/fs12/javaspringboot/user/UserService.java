@@ -4,6 +4,7 @@ import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import com.fs12.javaspringboot.util.UserNotFoundException;
 import com.fs12.javaspringboot.util.UsersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,6 +23,16 @@ public class UserService {
 
     public List<User> getUsers() throws UsersNotFoundException {
         List<User> users = userRepository.findAll();
+
+        if(!users.isEmpty()) {
+            return users;
+        } else {
+            throw new UsersNotFoundException("No users found.");
+        }
+    }
+
+    public List<User> getUsersWithSorting(String field) throws UsersNotFoundException {
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 
         if(!users.isEmpty()) {
             return users;

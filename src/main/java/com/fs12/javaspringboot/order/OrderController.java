@@ -36,6 +36,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrders());
     }
 
+    @GetMapping(path = "/sort/{field}")
+    public ResponseEntity<List<Order>> getOrdersWithSorting(@PathVariable String field) throws OrdersNotFoundException {
+        return ResponseEntity.ok(orderService.getOrdersWithSorting(field));
+    }
+
     @GetMapping(path = "{orderId}")
     public ResponseEntity<Optional<Order>> getOrder(@PathVariable("orderId") int orderId) throws OrderNotFoundException {
         return ResponseEntity.ok(orderService.getOrder(orderId));

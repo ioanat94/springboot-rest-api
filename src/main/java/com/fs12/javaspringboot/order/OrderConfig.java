@@ -97,10 +97,10 @@ public class OrderConfig {
         return args -> {
             Order order1 = new Order(
                     new Date(),
-                    "processing",
+                    "confirmed",
                     user1,
                     new ArrayList<>(Arrays.asList(productArray1)),
-                    15.98,
+                    25.98,
                     "Test str. no. 10"
             );
 

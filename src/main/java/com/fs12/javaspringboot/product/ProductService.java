@@ -3,6 +3,7 @@ package com.fs12.javaspringboot.product;
 import com.fs12.javaspringboot.util.ProductNotFoundException;
 import com.fs12.javaspringboot.util.ProductsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,16 @@ public class ProductService {
 
     public List<Product> getProducts() throws ProductsNotFoundException {
         List<Product> products = productRepository.findAll();
+
+        if(!products.isEmpty()) {
+            return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
+    public List<Product> getProductsWithSorting(String field) throws ProductsNotFoundException {
+        List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 
         if(!products.isEmpty()) {
             return products;

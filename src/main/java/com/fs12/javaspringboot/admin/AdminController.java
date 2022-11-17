@@ -27,6 +27,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAdmins());
     }
 
+    @GetMapping(path = "/sort/{field}")
+    public ResponseEntity<List<Admin>> getAdminsWithSorting(@PathVariable String field) throws AdminsNotFoundException {
+        return ResponseEntity.ok(adminService.getAdminsWithSorting(field));
+    }
+
     @GetMapping(path = "{adminId}")
     public ResponseEntity<Optional<Admin>> getAdmin(@PathVariable("adminId") int adminId) throws AdminNotFoundException {
         return ResponseEntity.ok(adminService.getAdmin(adminId));

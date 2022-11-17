@@ -3,6 +3,7 @@ package com.fs12.javaspringboot.order;
 import com.fs12.javaspringboot.util.OrderNotFoundException;
 import com.fs12.javaspringboot.util.OrdersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -66,6 +67,16 @@ public class OrderService {
         List<Order> orders = orderRepository.findAll();
 
         if (!orders.isEmpty()) {
+            return orders;
+        } else {
+            throw new OrdersNotFoundException("No orders found.");
+        }
+    }
+
+    public List<Order> getOrdersWithSorting(String field) throws OrdersNotFoundException {
+        List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+
+        if(!orders.isEmpty()) {
             return orders;
         } else {
             throw new OrdersNotFoundException("No orders found.");

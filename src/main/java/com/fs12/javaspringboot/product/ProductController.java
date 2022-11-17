@@ -26,6 +26,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProducts());
     }
 
+    @GetMapping(path = "/sort/{field}")
+    public ResponseEntity<List<Product>> getProductsWithSorting(@PathVariable String field) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsWithSorting(field));
+    }
+
     @GetMapping(path = "{productId}")
     public ResponseEntity<Optional<Product>> getProduct(@PathVariable("productId") int productId) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.getProduct(productId));

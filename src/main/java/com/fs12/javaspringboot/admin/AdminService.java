@@ -4,6 +4,7 @@ import com.fs12.javaspringboot.util.AdminNotFoundException;
 import com.fs12.javaspringboot.util.AdminsNotFoundException;
 import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +29,16 @@ public class AdminService implements UserDetailsService {
 
     public List<Admin> getAdmins() throws AdminsNotFoundException {
         List<Admin> admins = adminRepository.findAll();
+
+        if(!admins.isEmpty()) {
+            return admins;
+        } else {
+            throw new AdminsNotFoundException("No admins found.");
+        }
+    }
+
+    public List<Admin> getAdminsWithSorting(String field) throws AdminsNotFoundException {
+        List<Admin> admins = adminRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 
         if(!admins.isEmpty()) {
             return admins;

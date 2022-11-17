@@ -17,7 +17,7 @@ public class AdminConfig {
         
         return args -> {
             Admin admin1 = new Admin(
-                    "General",
+                    "General 1",
                     "Admin",
                     "generaladmin1@petlify.com",
                     passwordEncoder.encode("Securepassword1@"),
@@ -25,7 +25,7 @@ public class AdminConfig {
             );
 
             Admin admin2 = new Admin(
-                    "General",
+                    "General 3",
                     "Admin",
                     "generaladmin2@petlify.com",
                     passwordEncoder.encode("Securepassword1@"),
@@ -33,7 +33,7 @@ public class AdminConfig {
             );
 
             Admin admin3 = new Admin(
-                    "General",
+                    "General 2",
                     "Admin",
                     "generaladmin3@petlify.com",
                     passwordEncoder.encode("Securepassword1@"),
@@ -41,7 +41,7 @@ public class AdminConfig {
             );
 
             Admin admin4 = new Admin(
-                    "General",
+                    "General 4",
                     "Admin",
                     "generaladmin4@petlify.com",
                     passwordEncoder.encode("Securepassword1@"),

@@ -27,6 +27,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers());
     }
 
+    @GetMapping(path = "/sort/{field}")
+    public ResponseEntity<List<User>> getUsersWithSorting(@PathVariable String field) throws UsersNotFoundException {
+        return ResponseEntity.ok(userService.getUsersWithSorting(field));
+    }
+
     @GetMapping(path = "{userId}")
     public ResponseEntity<Optional<User>> getUser(@PathVariable int userId) throws UserNotFoundException {
         return ResponseEntity.ok(userService.getUser(userId));

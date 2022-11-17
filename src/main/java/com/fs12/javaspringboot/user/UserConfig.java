@@ -12,15 +12,15 @@ public class UserConfig {
     CommandLineRunner commandLineRunnerUser(UserRepository userRepository){
         return args -> {
             User user1 = new User(
-                    "Ioana",
+                    "Ioana 2",
                     "Tiplea",
-                    "ioanatiplea94@gmail.com",
+                    "ioanatiplea96@gmail.com",
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
                     false
             );
 
             User user2 = new User(
-                    "Ioana",
+                    "Ioana 5",
                     "Tiplea",
                     "ioanatiplea95@gmail.com",
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
@@ -28,25 +28,25 @@ public class UserConfig {
             );
 
             User user3 = new User(
-                    "Ioana",
+                    "Ioana 1",
                     "Tiplea",
-                    "ioanatiplea96@gmail.com",
+                    "ioanatiplea94@gmail.com",
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
                     false
             );
 
             User user4 = new User(
-                    "Ioana",
+                    "Ioana 9",
                     "Tiplea",
-                    "ioanatiplea97@gmail.com",
+                    "ioanatiplea98@gmail.com",
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
                     false
             );
 
             User user5 = new User(
-                    "Ioana",
+                    "Ioana 4",
                     "Tiplea",
-                    "ioanatiplea98@gmail.com",
+                    "ioanatiplea97@gmail.com",
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
                     false
             );
