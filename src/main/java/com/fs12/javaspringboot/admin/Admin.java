@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "admins")
+@Table(name = "admin")
 public class Admin {
     @Id
     @SequenceGenerator(

@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 public class Order {
     @Id
     @SequenceGenerator(
@@ -35,7 +35,10 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private User customer;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
+    @JoinTable(name="order_product",
+            joinColumns=@JoinColumn(name="product_id"),
+            inverseJoinColumns=@JoinColumn(name="order_id")
+    )
     @ElementCollection(targetClass = Product.class)
     private List<Product> products;
     private double totalPrice;
