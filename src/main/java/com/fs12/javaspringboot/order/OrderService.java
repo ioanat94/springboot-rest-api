@@ -3,6 +3,8 @@ package com.fs12.javaspringboot.order;
 import com.fs12.javaspringboot.util.OrderNotFoundException;
 import com.fs12.javaspringboot.util.OrdersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +80,26 @@ public class OrderService {
 
         if(!orders.isEmpty()) {
             return orders;
+        } else {
+            throw new OrdersNotFoundException("No orders found.");
+        }
+    }
+
+    public Page<Order> getOrdersWithPagination(int offset, int pageSize) throws OrdersNotFoundException {
+        Page<Order> ordersPage = orderRepository.findAll(PageRequest.of(offset, pageSize));
+
+        if(!ordersPage.isEmpty()) {
+            return ordersPage;
+        } else {
+            throw new OrdersNotFoundException("No orders found.");
+        }
+    }
+
+    public Page<Order> getOrdersWithPaginationAndSorting(int offset, int pageSize, String field) throws OrdersNotFoundException {
+        Page<Order> ordersPage = orderRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(Sort.Direction.ASC, field)));
+
+        if(!ordersPage.isEmpty()) {
+            return ordersPage;
         } else {
             throw new OrdersNotFoundException("No orders found.");
         }

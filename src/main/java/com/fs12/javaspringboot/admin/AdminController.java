@@ -4,6 +4,7 @@ import com.fs12.javaspringboot.util.AdminNotFoundException;
 import com.fs12.javaspringboot.util.AdminsNotFoundException;
 import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,16 @@ public class AdminController {
     @GetMapping(path = "/sort/{field}")
     public ResponseEntity<List<Admin>> getAdminsWithSorting(@PathVariable String field) throws AdminsNotFoundException {
         return ResponseEntity.ok(adminService.getAdminsWithSorting(field));
+    }
+
+    @GetMapping(path = "/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Admin>> getAdminsWithPagination(@PathVariable int offset, @PathVariable int pageSize) throws AdminsNotFoundException {
+        return ResponseEntity.ok(adminService.getAdminsWithPagination(offset, pageSize));
+    }
+
+    @GetMapping(path = "/sort/{field}/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Admin>> getAdminsWithPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field) throws AdminsNotFoundException {
+        return ResponseEntity.ok(adminService.getAdminsWithPaginationAndSorting(offset, pageSize, field));
     }
 
     @GetMapping(path = "{adminId}")

@@ -4,6 +4,8 @@ import com.fs12.javaspringboot.util.AdminNotFoundException;
 import com.fs12.javaspringboot.util.AdminsNotFoundException;
 import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -42,6 +44,26 @@ public class AdminService implements UserDetailsService {
 
         if(!admins.isEmpty()) {
             return admins;
+        } else {
+            throw new AdminsNotFoundException("No admins found.");
+        }
+    }
+
+    public Page<Admin> getAdminsWithPagination(int offset, int pageSize) throws AdminsNotFoundException {
+        Page<Admin> adminsPage = adminRepository.findAll(PageRequest.of(offset, pageSize));
+
+        if(!adminsPage.isEmpty()) {
+            return adminsPage;
+        } else {
+            throw new AdminsNotFoundException("No admins found.");
+        }
+    }
+
+    public Page<Admin> getAdminsWithPaginationAndSorting(int offset, int pageSize, String field) throws AdminsNotFoundException {
+        Page<Admin> adminsPage = adminRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(Sort.Direction.ASC, field)));
+
+        if(!adminsPage.isEmpty()) {
+            return adminsPage;
         } else {
             throw new AdminsNotFoundException("No admins found.");
         }

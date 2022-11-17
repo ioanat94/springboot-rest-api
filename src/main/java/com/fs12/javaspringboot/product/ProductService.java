@@ -3,6 +3,8 @@ package com.fs12.javaspringboot.product;
 import com.fs12.javaspringboot.util.ProductNotFoundException;
 import com.fs12.javaspringboot.util.ProductsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,26 @@ public class ProductService {
 
         if(!products.isEmpty()) {
             return products;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
+    public Page<Product> getProductsWithPagination(int offset, int pageSize) throws ProductsNotFoundException {
+        Page<Product> productsPage = productRepository.findAll(PageRequest.of(offset, pageSize));
+
+        if(!productsPage.isEmpty()) {
+            return productsPage;
+        } else {
+            throw new ProductsNotFoundException("No products found.");
+        }
+    }
+
+    public Page<Product> getProductsWithPaginationAndSorting(int offset, int pageSize, String field) throws ProductsNotFoundException {
+        Page<Product> productsPage = productRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(Sort.Direction.ASC, field)));
+
+        if(!productsPage.isEmpty()) {
+            return productsPage;
         } else {
             throw new ProductsNotFoundException("No products found.");
         }

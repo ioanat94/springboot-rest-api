@@ -3,6 +3,7 @@ package com.fs12.javaspringboot.product;
 import com.fs12.javaspringboot.util.ProductNotFoundException;
 import com.fs12.javaspringboot.util.ProductsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,16 @@ public class ProductController {
     @GetMapping(path = "/sort/{field}")
     public ResponseEntity<List<Product>> getProductsWithSorting(@PathVariable String field) throws ProductsNotFoundException {
         return ResponseEntity.ok(productService.getProductsWithSorting(field));
+    }
+
+    @GetMapping(path = "/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Product>> getProductsWithPagination(@PathVariable int offset, @PathVariable int pageSize) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsWithPagination(offset, pageSize));
+    }
+
+    @GetMapping(path = "/sort/{field}/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Product>> getProductsWithPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field) throws ProductsNotFoundException {
+        return ResponseEntity.ok(productService.getProductsWithPaginationAndSorting(offset, pageSize, field));
     }
 
     @GetMapping(path = "{productId}")

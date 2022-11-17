@@ -4,6 +4,7 @@ import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import com.fs12.javaspringboot.util.UserNotFoundException;
 import com.fs12.javaspringboot.util.UsersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,16 @@ public class UserController {
     @GetMapping(path = "/sort/{field}")
     public ResponseEntity<List<User>> getUsersWithSorting(@PathVariable String field) throws UsersNotFoundException {
         return ResponseEntity.ok(userService.getUsersWithSorting(field));
+    }
+
+    @GetMapping(path = "/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<User>> getUsersWithPagination(@PathVariable int offset, @PathVariable int pageSize) throws UsersNotFoundException {
+        return ResponseEntity.ok(userService.getUsersWithPagination(offset, pageSize));
+    }
+
+    @GetMapping(path = "/sort/{field}/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<User>> getUsersWithPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field) throws UsersNotFoundException {
+        return ResponseEntity.ok(userService.getUsersWithPaginationAndSorting(offset, pageSize, field));
     }
 
     @GetMapping(path = "{userId}")

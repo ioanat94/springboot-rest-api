@@ -3,6 +3,7 @@ package com.fs12.javaspringboot.order;
 import com.fs12.javaspringboot.util.OrderNotFoundException;
 import com.fs12.javaspringboot.util.OrdersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,16 @@ public class OrderController {
     @GetMapping(path = "/sort/{field}")
     public ResponseEntity<List<Order>> getOrdersWithSorting(@PathVariable String field) throws OrdersNotFoundException {
         return ResponseEntity.ok(orderService.getOrdersWithSorting(field));
+    }
+
+    @GetMapping(path = "/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Order>> getOrdersWithPagination(@PathVariable int offset, @PathVariable int pageSize) throws OrdersNotFoundException {
+        return ResponseEntity.ok(orderService.getOrdersWithPagination(offset, pageSize));
+    }
+
+    @GetMapping(path = "/sort/{field}/page/{offset}/size/{pageSize}")
+    public ResponseEntity<Page<Order>> getOrdersWithPaginationAndSorting(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String field) throws OrdersNotFoundException {
+        return ResponseEntity.ok(orderService.getOrdersWithPaginationAndSorting(offset, pageSize, field));
     }
 
     @GetMapping(path = "{orderId}")

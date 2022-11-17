@@ -4,6 +4,8 @@ import com.fs12.javaspringboot.util.EmailAlreadyInUse;
 import com.fs12.javaspringboot.util.UserNotFoundException;
 import com.fs12.javaspringboot.util.UsersNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,26 @@ public class UserService {
 
         if(!users.isEmpty()) {
             return users;
+        } else {
+            throw new UsersNotFoundException("No users found.");
+        }
+    }
+
+    public Page<User> getUsersWithPagination(int offset, int pageSize) throws UsersNotFoundException {
+        Page<User> usersPage = userRepository.findAll(PageRequest.of(offset, pageSize));
+
+        if(!usersPage.isEmpty()) {
+            return usersPage;
+        } else {
+            throw new UsersNotFoundException("No users found.");
+        }
+    }
+
+    public Page<User> getUsersWithPaginationAndSorting(int offset, int pageSize, String field) throws UsersNotFoundException {
+        Page<User> usersPage = userRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(Sort.Direction.ASC, field)));
+
+        if(!usersPage.isEmpty()) {
+            return usersPage;
         } else {
             throw new UsersNotFoundException("No users found.");
         }
