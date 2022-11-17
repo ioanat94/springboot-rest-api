@@ -37,20 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("api/v1/admin-login").permitAll();
         http.authorizeRequests().antMatchers("api/v1/token/refresh/**").permitAll();
 
-        http.authorizeRequests().antMatchers(GET, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_READ");
+        //http.authorizeRequests().antMatchers(GET, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_READ");
         http.authorizeRequests().antMatchers(POST, "/api/v1/products").hasAnyAuthority("PRODUCTS_WRITE");
         http.authorizeRequests().antMatchers(PUT, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_WRITE");
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/products/**").hasAnyAuthority("PRODUCTS_WRITE");
 
-        http.authorizeRequests().antMatchers(GET, "/api/v1/orders/**").hasAnyAuthority("ORDERS_READ");
-        http.authorizeRequests().antMatchers(POST, "/api/v1/orders").hasAnyAuthority("ORDERS_WRITE");
+        //http.authorizeRequests().antMatchers(GET, "/api/v1/orders/**").hasAnyAuthority("ORDERS_READ");
+        //http.authorizeRequests().antMatchers(POST, "/api/v1/orders").hasAnyAuthority("ORDERS_WRITE");
         http.authorizeRequests().antMatchers(PUT, "/api/v1/orders/**").hasAnyAuthority("ORDERS_WRITE");
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/orders/**").hasAnyAuthority("ORDERS_WRITE");
 
-        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("USERS_READ");
-        http.authorizeRequests().antMatchers(POST, "/api/v1/users").hasAnyAuthority("USERS_WRITE");
-        http.authorizeRequests().antMatchers(PUT, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
-        http.authorizeRequests().antMatchers(DELETE, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
+        //http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("USERS_READ");
+        //http.authorizeRequests().antMatchers(POST, "/api/v1/users").hasAnyAuthority("USERS_WRITE");
+        //http.authorizeRequests().antMatchers(PUT, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
+        //http.authorizeRequests().antMatchers(DELETE, "/api/v1/users/**").hasAnyAuthority("USERS_WRITE");
 
         http.authorizeRequests().antMatchers(GET, "/api/v1/admins/**").hasAnyAuthority("ADMINS_READ");
         http.authorizeRequests().antMatchers(POST, "/api/v1/admins").hasAnyAuthority("ADMINS_WRITE");
