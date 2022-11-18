@@ -1,43 +1,108 @@
-# Spring Boot assignment
+# Spring Boot REST API
 
-`Choose one of the assignments, preferably the same as your FS project (faster to implement as you are already familiar with the system)`
-
+<div id="top"></div>
+<!-- PROJECT LOGO -->
 <br />
+<div align="center">
+  <a href="https://github.com/ioanat94/springboot-rest-api">
+    <img src="https://miro.medium.com/max/856/1*O68LbDvD5Dcsnez73M7v4Q.png" alt="Logo" width="120" height="auto">
+  </a>
+<h3 align="center">Spring Boot REST API</h3>
 
-### Assignment 1:
+  <p align="center">
+    An e-commerce REST API with Java and Spring Boot.
+    <br />
+    <br />
+    <a href="https://documenter.getpostman.com/view/21218217/2s8YmNR3hG">View documentation</a>
+    <br />
+    <br />
+  </p>
+</div>
 
-Implement REST APIs for the library management system
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#built-with">Built With</a></li>
+    </li>
+    <li>
+      <a href="#installation">Installation</a></li>
+    </li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
-Convert the assignment in the Fundamentals part into a functional backend with real database persistence
+### Built With
 
-<br />
+* [Java](https://www.java.com/en/)
+* [Spring Boot](https://spring.io/projects/spring-boot)
+* [JWT](https://jwt.io/)
+* [PostgreSQL](https://www.postgresql.org/)
 
-### Assignment 2:
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-Implement REST APIs for the e-commerce site
+<!-- GETTING STARTED -->
+## Getting Started
 
-Convert the assignment in the Fundamentals part into a functional backend with real database persistence
+To get a local copy up and running follow these simple steps.
 
-Database to use: SQL DBs over NoSQL (for practicing reasons) you could use H2 if you don't want to improve how to connect to persistent DB.
+### Installation
 
-<br />
+1. Clone the repo  
+   <br /> 
+   ```sh
+   git clone https://github.com/ioanat94/springboot-rest-api
+   ```
+2. Create an `application.properties` file in the `src/main/resources` directory to set up your database and Google Auth credentials  
+   <br /> 
+   ```sh
+   spring.datasource.url=<your database url>
+   spring.datasource.username=<your database username>
+   spring.datasource.password=<your database password>
+   spring.jpa.hibernate.ddl-auto=create-drop
+   spring.jpa.show-sql=true
+   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+   spring.jpa.properties.hibernate.format_sql=true
+   spring.jpa.properties.hibernate.globally_quoted_identifiers=true
+   server.error.include-message=always
+   spring.security.oauth2.client.registration.google.client-id=<your Google client ID>
+   spring.security.oauth2.client.registration.google.client-secret=<your Google client secret>
+   ```
+3. Create a `.env` file to store your JWT secret  
+   <br /> 
+   ```sh
+   JWT_SECRET=<lots of random letters and numbers>
+   ```
+4. Start the application!
 
-### How to get started:
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-1. build basic table schema
-2. basic routes CRUD requests
-3. build references between table (if you didn't do i already)
-4. build/refactor routes to fulfill the referencing (create book with an author/s id)
-5. handling errors and request validation
-6. Authentication/authoraization
+<!-- USAGE EXAMPLES -->
+## Features
 
-<br />
+- Table schemas for Product, Order, User and Admin
+- References between tables (Many to One, Many to Many)
+- CRUD routes for all models
+- Request validation
+- Error handling
+- Google authentication for users
+- Local authentication for admins
+- JWT generation (access token, refresh token)
+- Protected routes
+- Permission-based route access
+- Sorting
+- Filtering
+- Pagination
 
-`Resources/Topics that could help you:`
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-1. Learn DTO pattern https://www.youtube.com/watch?v=THv-TI1ZNMk&t=1526s (or other resources)
-2. https://www.tutorialspoint.com/spring_boot/index.htm
+<!-- CONTACT -->
+## Contact
 
-<br />
+Ioana Tiplea - ioanatiplea94@gmail.com  - [LinkedIn](https://www.linkedin.com/in/ioana-tiplea/)
 
-<b>Fork this repo, and open a PR of your work.</b>
+Project Link: [https://github.com/ioanat94/springboot-rest-api](https://github.com/ioanat94/springboot-rest-api)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
