@@ -43,12 +43,9 @@
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
-## Getting Started
+### Installation
 
 To get a local copy up and running follow these simple steps.
-
-### Installation
 
 1. Clone the repo  
    <br /> 
